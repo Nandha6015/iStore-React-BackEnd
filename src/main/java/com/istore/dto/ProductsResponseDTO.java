@@ -21,6 +21,8 @@ public class ProductsResponseDTO {
     @JsonInclude(value = Include.NON_NULL)
     private String stockStatus;
     @JsonInclude(value = Include.NON_NULL)
+    private int quantityInStock;
+    @JsonInclude(value = Include.NON_NULL)
     private Images images;
 
 }

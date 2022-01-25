@@ -9,7 +9,9 @@ import com.istore.common.Error;
 import com.istore.data.ProductData;
 import com.istore.dto.ProductsRequestDTO;
 import com.istore.dto.ProductsResponseDTO;
+import com.istore.entity.Images;
 import com.istore.entity.Product;
+import com.istore.repository.ImagesRepo;
 import com.istore.repository.ProductRepo;
 import com.istore.validator.ProductValidator;
 
@@ -25,6 +27,9 @@ public class ProductService {
 
     @Autowired
     private ProductValidator productValidator;
+
+    @Autowired
+    private ImagesRepo imagesRepo;
 
     public ApiResponse getAllProducts(boolean isAdmin) {
         ApiResponse apiResponse = new ApiResponse();
@@ -77,6 +82,7 @@ public class ProductService {
             pDto.setKeyFeature3(product.getKeyFeature3());
             pDto.setDescription(product.getDescription());
             pDto.setPrice(product.getPrice());
+            pDto.setQuantityInStock(product.getQuantityInStock());
             pDto.setImages(product.getImages());
             productData.setProduct(pDto);
 
@@ -99,7 +105,20 @@ public class ProductService {
         product.setKeyFeature1(newProduct.getKeyFeature1());
         product.setKeyFeature2(newProduct.getKeyFeature2());
         product.setKeyFeature3(newProduct.getKeyFeature3());
+        product.setImgSrc("img/3.png");
         product.setQuantityInStock(newProduct.getStock());
+
+        Images images = new Images();
+        images.setImgSrc1("img/3.png");
+        images.setImgSrc2("img/3.png");
+        images.setImgSrc3("img/3.png");
+        images.setImgSrc4("img/3.png");
+        images.setImgSrc5("img/3.png");
+
+        imagesRepo.save(images);
+
+        product.setImages(images);
+        productRepo.save(product);
 
         ProductData productData = new ProductData();
         productData.setMessage("Product Added");
