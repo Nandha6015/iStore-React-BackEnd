@@ -10,8 +10,10 @@ import com.istore.dto.OrderResponseDTO;
 import com.istore.dto.ProductDTO;
 import com.istore.entity.Cart;
 import com.istore.entity.Orders;
+import com.istore.entity.Product;
 import com.istore.repository.CartRepo;
 import com.istore.repository.OrderRepo;
+import com.istore.repository.ProductRepo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,6 +21,9 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class OrderService {
+
+    @Autowired
+    private ProductRepo productRepo;
 
     @Autowired
     private CartRepo cartRepo;
@@ -61,6 +66,16 @@ public class OrderService {
             Orders orders = new Orders();
             orders.setOrderedAt(LocalDateTime.now());
             orders.setUser(cart.getUser());
+            Product product = productRepo.findById(cart.getUserProductDetails().getProduct().getId()).orElse(null);
+            int count = cart.getUserProductDetails().getProductNos();
+            if(product.getQuantityInStock()-count>=0){
+            product.setQuantityInStock(product.getQuantityInStock()-count);
+            }
+            else{
+                product.setQuantityInStock(0);
+                cart.getUserProductDetails().setProductNos(count-product.getQuantityInStock());
+            }
+            productRepo.save(product);
             orders.setUserProductDetails(cart.getUserProductDetails());
             orders.setTracker("Stage 1");
             orderRepo.save(orders);

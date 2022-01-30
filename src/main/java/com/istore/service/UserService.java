@@ -112,6 +112,7 @@ public class UserService implements UserDetailsService {
             profile.setPassword(user.getPassword());
             profile.setPhoneNumber(user.getPhoneNumber());
             profile.setAddress(user.getAddress());
+            profile.setImg(user.getProfileImg());
             profileData.setProfile(profile);
             apiResponse.setStatus(HttpStatus.OK.value());
             apiResponse.setData(profileData);
@@ -131,6 +132,7 @@ public class UserService implements UserDetailsService {
         user.setPassword(profileDTO.getPassword());
         user.setPhoneNumber(profileDTO.getPhoneNumber());
         user.setAddress(profileDTO.getAddress());
+        user.setProfileImg(profileDTO.getImg());
         userRepo.save(user);
         apiResponse.setStatus(HttpStatus.OK.value());
         profileData.setMessage("Profile Updated Successfully..!!!");
@@ -152,6 +154,7 @@ public class UserService implements UserDetailsService {
             profileDTO.setEmail(user.getEmail());
             profileDTO.setName(user.getName());
             profileDTO.setIsEnable(user.isEnabled());
+            profileDTO.setImg(user.getProfileImg());
             profileDTOs.add(profileDTO);
         }
 

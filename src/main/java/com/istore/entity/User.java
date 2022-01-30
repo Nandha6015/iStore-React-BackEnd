@@ -29,6 +29,7 @@ public class User implements UserDetails {
     private LocalDateTime createdAt;
     private Integer loginCount;
     private String role;
+    private String profileImg;
     private boolean isEnable = true;
 
     @Override
