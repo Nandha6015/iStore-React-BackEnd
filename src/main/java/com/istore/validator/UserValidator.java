@@ -47,7 +47,7 @@ public class UserValidator {
                 errors.add(new Error("Account", "Your Account is not active"));
             }
             if (!user.getPassword().equals(userData.getPassword())) {
-                errors.add(new Error("Password", "Password Not Matched"));
+                errors.add(new Error("Password", "Invalid Password"));
             }
         }
 
