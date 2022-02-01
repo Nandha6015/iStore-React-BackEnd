@@ -34,8 +34,8 @@ public class UserController {
     }
 
     @PutMapping("")
-    public ApiResponse updateProfile(@PathVariable Long id, @RequestBody ProfileDTO profileDTO) {
-        return userService.updateProfile(id, profileDTO);
+    public ApiResponse updateProfile(@PathVariable Long id, @RequestBody ProfileDTO profileDTO, @RequestParam(name = "img",required = false) String img ) {
+        return userService.updateProfile(id, profileDTO,img);
     }
 
     // ---------------Profile Controller Ends---------------

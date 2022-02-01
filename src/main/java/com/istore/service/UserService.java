@@ -123,16 +123,20 @@ public class UserService implements UserDetailsService {
     }
 
     // To Update Profile
-    public ApiResponse updateProfile(Long id, ProfileDTO profileDTO) {
+    public ApiResponse updateProfile(Long id, ProfileDTO profileDTO,String img) {
         ApiResponse apiResponse = new ApiResponse();
         ProfileData profileData = new ProfileData();
         User user = userRepo.findById(id).orElse(null);
-        user.setName(profileDTO.getName());
-        user.setEmail(profileDTO.getEmail());
-        user.setPassword(profileDTO.getPassword());
-        user.setPhoneNumber(profileDTO.getPhoneNumber());
-        user.setAddress(profileDTO.getAddress());
-        user.setProfileImg(profileDTO.getImg());
+        if(img!=null){
+            user.setProfileImg(profileDTO.getImg());
+        }
+        else{
+            user.setEmail(profileDTO.getEmail());
+            user.setPassword(profileDTO.getPassword());
+            user.setPhoneNumber(profileDTO.getPhoneNumber());
+            user.setAddress(profileDTO.getAddress());
+            user.setName(profileDTO.getName());
+        }
         userRepo.save(user);
         apiResponse.setStatus(HttpStatus.OK.value());
         profileData.setMessage("Profile Updated Successfully..!!!");
@@ -167,13 +171,13 @@ public class UserService implements UserDetailsService {
         return apiResponse;
     }
 
-    public ApiResponse makeUserDisableAndEnable(Long id) {
+    public ApiResponse makeUserDisableAndEnable(Long id,boolean enable) {
         ApiResponse apiResponse = new ApiResponse();
 
         User user = userRepo.findById(id).orElse(null);
         ProfileData profileData = new ProfileData();
 
-        user.setEnable(!user.isEnabled());
+        user.setEnable(enable);
         profileData.setMessage("User Status Changed");
         
         userRepo.save(user);

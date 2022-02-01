@@ -34,8 +34,8 @@ public class AdminController {
     }
 
     @PutMapping("/users/{id}")
-    public ApiResponse makeUserDisableAndEnable(@PathVariable Long id) {
-        return userService.makeUserDisableAndEnable(id);
+    public ApiResponse makeUserDisableAndEnable(@PathVariable Long id,@RequestParam(name = "enable") boolean enable) {
+        return userService.makeUserDisableAndEnable(id,enable);
     }
 
     // ---------------User Controller Ends---------------

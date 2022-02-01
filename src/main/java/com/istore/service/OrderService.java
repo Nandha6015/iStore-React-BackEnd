@@ -36,7 +36,7 @@ public class OrderService {
         OrdersData ordersData = new OrdersData();
 
         List<ProductDTO> productDTOs = new ArrayList<>();
-        List<Orders> orders = orderRepo.findAllByUserId(id);
+        List<Orders> orders = orderRepo.findAllByUserIdOrderByIdDesc(id);
 
         for (Orders order : orders) {
             ProductDTO productDTO = new ProductDTO();
@@ -94,7 +94,7 @@ public class OrderService {
         ApiResponse apiResponse=new ApiResponse();
 
         List<ProductDTO> productDTOs = new ArrayList<>();
-        List<Orders> orders = orderRepo.findAll();
+        List<Orders> orders = orderRepo.findAllOrderByIdDesc();
 
         for (Orders order : orders) {
             ProductDTO productDTO = new ProductDTO();
