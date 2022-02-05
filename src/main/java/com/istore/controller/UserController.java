@@ -1,6 +1,7 @@
 package com.istore.controller;
 
 import com.istore.common.ApiResponse;
+import com.istore.dto.AddressDTO;
 import com.istore.dto.ProfileDTO;
 import com.istore.service.CartService;
 import com.istore.service.OrderService;
@@ -36,6 +37,16 @@ public class UserController {
     @PutMapping("")
     public ApiResponse updateProfile(@PathVariable Long id, @RequestBody ProfileDTO profileDTO, @RequestParam(name = "img",required = false) String img ) {
         return userService.updateProfile(id, profileDTO,img);
+    }
+
+    @GetMapping("/address")
+    public ApiResponse getAddress(@PathVariable Long id){
+        return userService.getAddress(id);
+    }
+
+    @PutMapping("/address")
+    public ApiResponse updateAddress(@PathVariable Long id, @RequestBody AddressDTO addressDto){
+        return userService.updateAddress(id, addressDto);
     }
 
     // ---------------Profile Controller Ends---------------

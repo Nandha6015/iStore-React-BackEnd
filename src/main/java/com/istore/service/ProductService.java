@@ -52,8 +52,8 @@ public class ProductService {
                 pDto.setKeyFeature3(product.getKeyFeature3());
                 pDto.setPrice(product.getPrice());
                 pDto.setStockStatus(product.getQuantityInStock() > 20 ? "InStock"
-                        : product.getQuantityInStock() > 10 ? "Hurry, few lefts"
-                                : product.getQuantityInStock() == 0 ? "Out of Stock" : "few lefts");
+                        : product.getQuantityInStock() > 10 ? "few lefts"
+                                : product.getQuantityInStock() == 0 ? "Out of Stock" : "Hurry, few lefts");
                 pList.add(pDto);
             }
             productData.setProducts(pList);

@@ -19,8 +19,6 @@ public class ProfileDTO {
     @JsonInclude(value = Include.NON_NULL)
     private String img;
     @JsonInclude(value = Include.NON_NULL)
-    private String address;
-    @JsonInclude(value = Include.NON_NULL)
     private Boolean isEnable;
 
 }

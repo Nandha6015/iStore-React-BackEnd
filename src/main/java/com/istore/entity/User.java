@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -25,7 +27,9 @@ public class User implements UserDetails {
     private String password;
     private String email;
     private String phoneNumber;
-    private String address;
+    @OneToOne
+    @JoinColumn(referencedColumnName = "id",nullable = true)
+    private Address address;
     private LocalDateTime createdAt;
     private Integer loginCount;
     private String role;

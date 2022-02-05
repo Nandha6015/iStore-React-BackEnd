@@ -7,14 +7,18 @@ import java.util.List;
 import com.istore.common.ApiResponse;
 import com.istore.common.BadRequestException;
 import com.istore.common.Error;
+import com.istore.data.AddressData;
 import com.istore.data.LoginData;
 import com.istore.data.ProfileData;
+import com.istore.dto.AddressDTO;
 import com.istore.dto.LoginRequestDTO;
 import com.istore.dto.LoginResponseDTO;
 import com.istore.dto.ProfileDTO;
 import com.istore.dto.SignUpRequestDTO;
+import com.istore.entity.Address;
 import com.istore.entity.User;
 import com.istore.jwt.JwtUtil;
+import com.istore.repository.AddressRepo;
 import com.istore.repository.UserRepo;
 import com.istore.validator.UserValidator;
 
@@ -30,6 +34,9 @@ public class UserService implements UserDetailsService {
 
     @Autowired
     private UserRepo userRepo;
+
+    @Autowired
+    private AddressRepo addressRepo;
 
     @Autowired
     private UserValidator userValidator;
@@ -59,6 +66,9 @@ public class UserService implements UserDetailsService {
             user.setPassword(newUserData.getPassword());
             user.setRole(userValidator.getUserType(newUserData.getEmail()));
             user.setCreatedAt(LocalDateTime.now());
+            Address address = new Address();
+            addressRepo.save(address);
+            user.setAddress(address);
             user.setLoginCount(1);
             userRepo.save(user);
 
@@ -111,7 +121,6 @@ public class UserService implements UserDetailsService {
             profile.setEmail(user.getEmail());
             profile.setPassword(user.getPassword());
             profile.setPhoneNumber(user.getPhoneNumber());
-            profile.setAddress(user.getAddress());
             profile.setImg(user.getProfileImg());
             profileData.setProfile(profile);
             apiResponse.setStatus(HttpStatus.OK.value());
@@ -134,7 +143,6 @@ public class UserService implements UserDetailsService {
             user.setEmail(profileDTO.getEmail());
             user.setPassword(profileDTO.getPassword());
             user.setPhoneNumber(profileDTO.getPhoneNumber());
-            user.setAddress(profileDTO.getAddress());
             user.setName(profileDTO.getName());
         }
         userRepo.save(user);
@@ -183,6 +191,57 @@ public class UserService implements UserDetailsService {
         userRepo.save(user);
         apiResponse.setStatus(HttpStatus.OK.value());
         apiResponse.setData(profileData);
+
+        return apiResponse;
+    }
+
+    public ApiResponse getAddress(Long id) {
+        ApiResponse apiResponse = new ApiResponse();
+        AddressData addressData = new AddressData();
+
+        
+        User user = userRepo.findById(id).orElse(null);
+        Address address = user.getAddress();
+        
+        AddressDTO addressDTO = new AddressDTO();
+
+        addressDTO.setName(address.getName());
+        addressDTO.setPhoneNumber(address.getPhoneNumber());
+        addressDTO.setAddress(address.getAddress());
+        addressDTO.setCity(address.getCity());
+        addressDTO.setState(address.getState());
+        addressDTO.setEmail(address.getEmail());
+        addressDTO.setPincode(address.getPincode());
+
+        addressData.setAddress(addressDTO);
+
+        apiResponse.setStatus(HttpStatus.OK.value());
+        apiResponse.setData(addressData);
+        return apiResponse;
+    }
+
+    public ApiResponse updateAddress(Long id, AddressDTO addressDto) {
+        ApiResponse apiResponse = new ApiResponse();
+        AddressData addressData = new AddressData();
+        User user = userRepo.findById(id).orElse(null);
+        Address address = user.getAddress();
+
+        address.setName(addressDto.getName());
+        address.setPhoneNumber(addressDto.getPhoneNumber());
+        address.setAddress(addressDto.getAddress());
+        address.setCity(addressDto.getCity());
+        address.setState(addressDto.getState());
+        address.setEmail(addressDto.getEmail());
+        address.setPincode(addressDto.getPincode());
+
+        addressRepo.save(address);
+        user.setAddress(address);
+        userRepo.save(user);
+
+        addressData.setMessage("Address Updated");
+
+        apiResponse.setStatus(HttpStatus.OK.value());
+        apiResponse.setData(addressData);
 
         return apiResponse;
     }
