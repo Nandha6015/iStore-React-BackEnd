@@ -51,6 +51,7 @@ public class ProductService {
                 pDto.setKeyFeature2(product.getKeyFeature2());
                 pDto.setKeyFeature3(product.getKeyFeature3());
                 pDto.setPrice(product.getPrice());
+                pDto.setCategory(product.getCategory());
                 pDto.setStockStatus(product.getQuantityInStock() > 20 ? "InStock"
                         : product.getQuantityInStock() > 10 ? "few lefts"
                                 : product.getQuantityInStock() == 0 ? "Out of Stock" : "Hurry, few lefts");
@@ -107,6 +108,7 @@ public class ProductService {
         product.setKeyFeature3(newProduct.getKeyFeature3());
         product.setImgSrc("img/3.png");
         product.setQuantityInStock(newProduct.getStock());
+        product.setCategory(newProduct.getCategory());
 
         Images images = new Images();
         images.setImgSrc1("img/3.png");
@@ -140,6 +142,7 @@ public class ProductService {
         product.setKeyFeature2(oldProduct.getKeyFeature2());
         product.setKeyFeature3(oldProduct.getKeyFeature3());
         product.setQuantityInStock(oldProduct.getStock());
+        product.setCategory(oldProduct.getCategory());
         productRepo.save(product);
 
         ProductData productData = new ProductData();

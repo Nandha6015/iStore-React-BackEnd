@@ -25,6 +25,7 @@ public class Product {
     private String keyFeature3;
     private String imgSrc;
     private int quantityInStock;
+    private String category;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(referencedColumnName = "id", nullable = false)
     private Images images;

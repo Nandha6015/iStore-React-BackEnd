@@ -7,6 +7,7 @@ public class ProductsRequestDTO {
 
     private String name;
     private Double price;
+    private String category;
     private String description;
     private String keyFeature1;
     private String keyFeature2;
