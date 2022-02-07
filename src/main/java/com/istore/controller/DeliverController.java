@@ -28,8 +28,8 @@ public class DeliverController {
     }
 
     @PutMapping("/orders/{oid}")
-    public ApiResponse updateTrack(@PathVariable Long id,@RequestParam(name = "track",required = true) String track){
-        return orderService.updateTrack(id,track);
+    public ApiResponse updateTrack(@PathVariable Long id,@PathVariable Long oid,@RequestParam(name = "track",required = true) String track){
+        return orderService.updateTrack(oid,track);
     }
 
     // ---------------Order Controller Ends---------------

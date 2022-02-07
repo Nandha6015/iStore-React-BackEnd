@@ -146,7 +146,7 @@ public class OrderService {
             if(order.getIsCancel()){
                 productDTO.setTracker("cancelled");
             }
-            if(order.getTracker().equals("Stage 4")){
+            if(order.getTracker().equals("Stage 4") || order.getTracker().equals("Stage 5")){
                 productDTO.setDname(order.getDelivery().getName());
             }
             productDTOs.add(productDTO);
@@ -198,7 +198,9 @@ public class OrderService {
         List<DeliveryDTO> deliveryDTOs = new ArrayList<>();
 
         for (Orders order : orders) {
+            if(!order.getTracker().equals("Stage 4") || order.getIsCancel()) continue;
             DeliveryDTO deliveryDTO = new DeliveryDTO();
+            deliveryDTO.setId(order.getId());
             deliveryDTO.setPname(order.getUserProductDetails().getProduct().getName());
             deliveryDTO.setUname(order.getUser().getName());
             deliveryDTO.setAddress(order.getAddress());
