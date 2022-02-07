@@ -27,6 +27,7 @@ public class User implements UserDetails {
     private String password;
     private String email;
     private String phoneNumber;
+    private String city;
     @OneToOne
     @JoinColumn(referencedColumnName = "id",nullable = true)
     private Address address;

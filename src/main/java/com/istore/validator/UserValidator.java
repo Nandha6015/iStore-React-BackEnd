@@ -59,6 +59,9 @@ public class UserValidator {
         if (email.contains("@istore.com")) {
             return "ADMIN";
         }
+        if(email.contains("deliver.com")){
+            return "DELIVER";
+        }
         return "USER";
     }
 

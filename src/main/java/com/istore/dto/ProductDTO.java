@@ -19,4 +19,6 @@ public class ProductDTO {
     private String pname;
     @JsonInclude(value = Include.NON_NULL)
     private String tracker;
+    @JsonInclude(value = Include.NON_NULL)
+    private String dname;
 }

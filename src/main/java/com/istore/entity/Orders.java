@@ -25,5 +25,13 @@ public class Orders {
     @OneToOne
     @JoinColumn(referencedColumnName = "id")
     private User user;
+    @OneToOne
+    @JoinColumn(referencedColumnName = "id",nullable = true)
+    private Address address;
     private String tracker;
+    @OneToOne
+    @JoinColumn(referencedColumnName = "id")
+    private User delivery;
+    private String paymentType="COD";
+    private Boolean isCancel=false;
 }

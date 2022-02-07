@@ -70,6 +70,9 @@ public class UserService implements UserDetailsService {
             addressRepo.save(address);
             user.setAddress(address);
             user.setLoginCount(1);
+            if(user.getRole()=="DELIVER"){
+                user.setCity(user.getEmail().split("@", 0)[1].split(".deliver.com", 0)[0]);
+            }
             userRepo.save(user);
 
             loginData.setUser(

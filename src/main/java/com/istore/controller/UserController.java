@@ -109,6 +109,11 @@ public class UserController {
         return orderService.addToOrder(id);
     }
 
+    @PutMapping("/orders/{oid}")
+    public ApiResponse cancelOrder(@PathVariable Long id,@PathVariable Long oid){
+        return orderService.cancelOrder(id,oid);
+    }
+
     // ---------------Order Controller Ends---------------
 
 }
