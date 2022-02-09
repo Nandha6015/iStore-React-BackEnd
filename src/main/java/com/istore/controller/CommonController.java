@@ -40,31 +40,6 @@ public class CommonController {
         return userService.getLogin(userData);
     }
 
-    // @PostMapping("/authenticate")
-    // public ApiResponse getAuthenticated(@RequestBody LoginRequestDTO userData)
-    // throws Exception {
-    // try {
-    // authenticationManager
-    // .authenticate(new UsernamePasswordAuthenticationToken(userData.getEmail(),
-    // userData.getPassword()));
-    // } catch (BadCredentialsException e) {
-    // throw new Exception("Incorrect Email or Password", e);
-    // }
-
-    // User user = (User) userService.loadUserByUsername(userData.getEmail());
-    // String jwt = jwtUtil.generateToken(user);
-
-    // ApiResponse apiResponse = new ApiResponse();
-
-    // LoginData loginData = new LoginData();
-    // loginData.setToken(jwt);
-    // loginData.setUser(new LoginResponseDTO(user.getId(), user.getRole()));
-
-    // apiResponse.setStatus(HttpStatus.OK.value());
-    // apiResponse.setData(loginData);
-    // return apiResponse;
-    // }
-
     // ---------------Login Controller Ends---------------
 
     // ---------------Product Controller Starts---------------
@@ -78,8 +53,8 @@ public class CommonController {
     }
 
     @GetMapping("/products/{id}") // To Get Particular Product
-    public ApiResponse getProduct(@PathVariable Long id) {
-        return productService.getProduct(id);
+    public ApiResponse getProduct(@PathVariable Long id,@RequestParam(name = "track",required = false) String track) {
+        return productService.getProduct(id, track);
     }
 
     // ---------------Product Controller Ends---------------

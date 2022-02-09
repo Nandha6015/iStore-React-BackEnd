@@ -66,31 +66,48 @@ public class ProductService {
         return apiResponse;
     }
 
-    public ApiResponse getProduct(Long id) {
+    public ApiResponse getProduct(Long id,String track) {
         ApiResponse apiResponse = new ApiResponse();
 
         ProductData productData = new ProductData();
         Product product = productRepo.findById(id).orElse(null);
+        ProductsResponseDTO pDto = new ProductsResponseDTO();
 
-        List<Error> errors = productValidator.isProductValid(id);
-        if (errors.size() == 0) {
-            ProductsResponseDTO pDto = new ProductsResponseDTO();
-            pDto.setId(id);
-            pDto.setName(product.getName());
-            pDto.setImgSrc(product.getImgSrc());
-            pDto.setKeyFeature1(product.getKeyFeature1());
-            pDto.setKeyFeature2(product.getKeyFeature2());
-            pDto.setKeyFeature3(product.getKeyFeature3());
-            pDto.setDescription(product.getDescription());
-            pDto.setPrice(product.getPrice());
-            pDto.setQuantityInStock(product.getQuantityInStock());
-            pDto.setImages(product.getImages());
-            productData.setProduct(pDto);
+        if(track==null){
 
+            List<Error> errors = productValidator.isProductValid(id);
+            if (errors.size() == 0) {
+                pDto.setId(id);
+                pDto.setName(product.getName());
+                pDto.setImgSrc(product.getImgSrc());
+                pDto.setKeyFeature1(product.getKeyFeature1());
+                pDto.setKeyFeature2(product.getKeyFeature2());
+                pDto.setKeyFeature3(product.getKeyFeature3());
+                pDto.setDescription(product.getDescription());
+                pDto.setPrice(product.getPrice());
+                pDto.setQuantityInStock(product.getQuantityInStock());
+                pDto.setImages(product.getImages());
+                pDto.setCategory(product.getCategory());
+                productData.setProduct(pDto);
+
+                apiResponse.setStatus(HttpStatus.OK.value());
+                apiResponse.setData(productData);
+            } else {
+                throw new BadRequestException("Bad Request", errors);
+            }
+        }
+        else{
+            if(product.getQuantityInStock()!=0){
+                pDto.setImgSrc(product.getImgSrc());
+                pDto.setName(product.getName());
+                productData.setProduct(pDto);
+                productData.setMessage("Yes");
+            }
+            else{
+                productData.setMessage("No");
+            }
             apiResponse.setStatus(HttpStatus.OK.value());
             apiResponse.setData(productData);
-        } else {
-            throw new BadRequestException("Bad Request", errors);
         }
 
         return apiResponse;
@@ -141,7 +158,7 @@ public class ProductService {
         product.setKeyFeature1(oldProduct.getKeyFeature1());
         product.setKeyFeature2(oldProduct.getKeyFeature2());
         product.setKeyFeature3(oldProduct.getKeyFeature3());
-        product.setQuantityInStock(oldProduct.getStock());
+        product.setQuantityInStock(oldProduct.getStock()>=0?oldProduct.getStock():0);
         product.setCategory(oldProduct.getCategory());
         productRepo.save(product);
 
